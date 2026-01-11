@@ -1,0 +1,79 @@
+/* ========================================
+   SKILL TREE - Container principal
+   ======================================== */
+
+.skill-tree {
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* ========================================
+     EN-TÊTE GLOBAL
+     ======================================== */
+
+.skill-tree__header {
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-bottom: 3rem;
+  background: rgba(0, 0, 0, 0.4);
+  border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+  border-radius: 20px 20px 0 0;
+}
+
+.skill-tree__title {
+  margin: 0;
+  font-size: 4rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #00d9ff, #00ff88, #667eea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 40px rgba(0, 217, 255, 0.6);
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(0, 217, 255, 0.8));
+  }
+}
+
+.skill-tree__subtitle {
+  margin: 1rem 0 0 0;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+/* ========================================
+     CONTENU
+     ======================================== */
+
+.skill-tree__content {
+  /* Le WayCard gère sa propre mise en page */
+}
+
+/* ========================================
+     RESPONSIVE
+     ======================================== */
+
+@media (max-width: 768px) {
+  .skill-tree {
+    padding: 1rem;
+  }
+
+  .skill-tree__title {
+    font-size: 2.5rem;
+  }
+
+  .skill-tree__subtitle {
+    font-size: 1rem;
+    letter-spacing: 2px;
+  }
+}

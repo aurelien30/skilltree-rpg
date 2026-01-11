@@ -1,0 +1,150 @@
+/* ========================================
+   NODE CARD - Nœud de compétence
+   ======================================== */
+
+.node-card {
+  position: relative;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid;
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  min-height: 180px;
+}
+
+.node-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
+     ÉTATS
+     ======================================== */
+
+.node-card--locked {
+  border-color: #555;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.node-card--locked:hover {
+  transform: none;
+}
+
+.node-card--in-progress {
+  border-color: #00d9ff;
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+}
+
+.node-card--completed {
+  border-color: #00ff88;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+/* ========================================
+     ÉLÉMENTS
+     ======================================== */
+
+.node-card__badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 1.5rem;
+  filter: drop-shadow(0 0 5px currentColor);
+}
+
+.node-card__content {
+  position: relative;
+  z-index: 1;
+}
+
+.node-card__title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.node-card__description {
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.4;
+}
+
+/* Projet */
+.node-card__project {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.node-card__project-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #00d9ff;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.node-card__project-text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+/* ========================================
+     EFFET GLOW
+     ======================================== */
+
+.node-card__glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(0, 217, 255, 0.1) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.node-card:hover .node-card__glow {
+  opacity: 1;
+}
+
+/* Animation scan pour in-progress */
+.node-card--in-progress::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 217, 255, 0.1),
+    transparent
+  );
+  animation: scan 3s infinite;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
