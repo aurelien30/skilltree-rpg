@@ -2,22 +2,17 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { initDatabase } from "./config/database.js";
+import waysRoutes from "./routes/waysRoutes.js"; // ← NOUVEAU
 
-// Charge les variables d'environnement depuis .env
 dotenv.config();
 
-// Crée l'application Express
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ===== MIDDLEWARES =====
-// Autorise les requêtes depuis le frontend (évite les erreurs CORS)
 app.use(cors());
-
-// Permet de lire les données JSON envoyées dans le body des requêtes
 app.use(express.json());
 
-// Middleware pour logger toutes les requêtes (utile pour débugger)
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path}`);
   next();
@@ -25,20 +20,19 @@ app.use((req, res, next) => {
 
 // ===== ROUTES =====
 
-// Route de base (pour tester que l'API fonctionne)
 app.get("/", (req, res) => {
   res.json({
     message: "🎮 API SkillTree RPG est en ligne !",
     version: "1.0.0",
     endpoints: {
       health: "/health",
-      users: "/api/users",
-      skills: "/api/skills",
+      ways: "/api/ways",
+      way: "/api/ways/:id",
+      level: "/api/ways/:wayId/levels/:levelId",
     },
   });
 });
 
-// Route de santé (pour vérifier que le serveur est up)
 app.get("/health", (req, res) => {
   res.json({
     status: "OK",
@@ -47,8 +41,10 @@ app.get("/health", (req, res) => {
   });
 });
 
-// Route 404 (doit être APRÈS toutes les autres routes)
-// Compatible avec Express 5
+// ===== ROUTES API ===== ← NOUVEAU
+app.use("/api/ways", waysRoutes);
+
+// ===== 404 & ERREURS =====
 app.use((req, res, next) => {
   res.status(404).json({
     error: "Route non trouvée",
@@ -57,9 +53,8 @@ app.use((req, res, next) => {
   });
 });
 
-// Gestion des erreurs globales
 app.use((err, req, res, next) => {
-  console.error(" Erreur serveur:", err);
+  console.error("❌ Erreur serveur:", err);
   res.status(500).json({
     error: "Erreur serveur interne",
     message:
@@ -69,26 +64,22 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ===== DÉMARRAGE DU SERVEUR =====
-
+// ===== DÉMARRAGE =====
 const startServer = async () => {
   try {
-    // Initialise la base de données
     await initDatabase();
 
-    // Démarre le serveur
     app.listen(PORT, () => {
       console.log("================================");
-      console.log(` Serveur démarré avec succès !`);
-      console.log(` URL: http://localhost:${PORT}`);
-      console.log(` Environnement: ${process.env.NODE_ENV || "development"}`);
+      console.log(`🚀 Serveur démarré avec succès !`);
+      console.log(`📍 URL: http://localhost:${PORT}`);
+      console.log(`🌍 Environnement: ${process.env.NODE_ENV || "development"}`);
       console.log("================================");
     });
   } catch (error) {
-    console.error(" Erreur au démarrage du serveur:", error);
-    process.exit(1); // Arrête le processus en cas d'erreur
+    console.error("❌ Erreur au démarrage du serveur:", error);
+    process.exit(1);
   }
 };
 
-// Lance le serveur
 startServer();
