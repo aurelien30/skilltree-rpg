@@ -1,6 +1,6 @@
 # SkillTree RPG
 
-Un jeu de gestion de compétences inspiré des arbres de talents des RPG.
+gestion de compétences inspiré des arbres de talents des RPG.
 
 ## Technologies utilisées
 
