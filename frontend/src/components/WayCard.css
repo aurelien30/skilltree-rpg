@@ -141,3 +141,20 @@
     font-size: 2rem;
   }
 }
+/* ========================================
+   NO LEVELS MESSAGE
+   ======================================== */
+
+.way-card__no-levels {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+}
+
+.way-card__no-levels p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.1rem;
+}

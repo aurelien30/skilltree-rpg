@@ -1,4 +1,3 @@
-import NodeCard from "./NodeCard";
 import "./LevelCard.css";
 
 function LevelCard({ level }) {
@@ -16,22 +15,31 @@ function LevelCard({ level }) {
         </div>
       </div>
 
-      {/* Liste des nœuds */}
-      <div className="level-card__nodes">
-        {level.nodes.map((node) => (
-          <NodeCard key={node.id} node={node} />
-        ))}
+      {/* Badge de statut */}
+      <div className="level-card__status">
+        <span className={`status-badge status-badge--${level.status}`}>
+          {level.status === "locked" && "🔒 Verrouillé"}
+          {level.status === "in-progress" && "⚡ En cours"}
+          {level.status === "completed" && "✅ Terminé"}
+        </span>
       </div>
 
       {/* Projet final */}
-      {level.finalProject && (
+      {level.final_project && (
         <div className="level-card__final-project">
           <h4 className="level-card__final-project-title">
             🏆 Projet de validation du niveau
           </h4>
-          <p className="level-card__final-project-text">{level.finalProject}</p>
+          <p className="level-card__final-project-text">
+            {level.final_project}
+          </p>
         </div>
       )}
+
+      {/* Message temporaire */}
+      <div className="level-card__nodes-placeholder">
+        <p>📦 Les compétences de ce niveau seront bientôt disponibles</p>
+      </div>
     </div>
   );
 }

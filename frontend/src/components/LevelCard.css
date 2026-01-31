@@ -1,133 +1,65 @@
 /* ========================================
-   LEVEL CARD - Niveau avec nœuds
+   STATUS BADGE
    ======================================== */
 
-.level-card {
-  background: rgba(0, 0, 0, 0.4);
-  border: 2px solid rgba(0, 217, 255, 0.3);
-  border-radius: 16px;
-  padding: 2rem;
-  margin-bottom: 2rem;
+.level-card__status {
+  margin: 1rem 0;
 }
 
-/* ========================================
-     EN-TÊTE DU NIVEAU
-     ======================================== */
-
-.level-card__header {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-  align-items: center;
-}
-
-.level-card__number {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(0, 217, 255, 0.1);
-  border: 2px solid #00d9ff;
-  border-radius: 12px;
-  padding: 1rem;
-  min-width: 80px;
-}
-
-.level-card__number-label {
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.6);
+.status-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.level-card__number-value {
-  font-size: 2.5rem;
-  font-weight: 900;
+.status-badge--locked {
+  background: rgba(85, 85, 85, 0.2);
+  border: 1px solid #555;
+  color: #999;
+}
+
+.status-badge--in-progress {
+  background: rgba(0, 217, 255, 0.1);
+  border: 1px solid #00d9ff;
   color: #00d9ff;
-  text-shadow: 0 0 20px rgba(0, 217, 255, 0.8);
-  line-height: 1;
+  animation: pulse-glow 2s infinite;
 }
 
-.level-card__info {
-  flex: 1;
-}
-
-.level-card__title {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #ffffff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-}
-
-.level-card__description {
-  margin: 0;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* ========================================
-     GRILLE DES NŒUDS
-     ======================================== */
-
-.level-card__nodes {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-/* ========================================
-     PROJET FINAL
-     ======================================== */
-
-.level-card__final-project {
-  background: linear-gradient(
-    135deg,
-    rgba(0, 217, 255, 0.1),
-    rgba(0, 255, 136, 0.1)
-  );
-  border: 2px solid rgba(0, 255, 136, 0.4);
-  border-radius: 12px;
-  padding: 1.5rem;
-  text-align: center;
-}
-
-.level-card__final-project-title {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.2rem;
+.status-badge--completed {
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid #00ff88;
   color: #00ff88;
-  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
 }
 
-.level-card__final-project-text {
-  margin: 0;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.8);
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.6);
+  }
 }
 
 /* ========================================
-     RESPONSIVE
+     NODES PLACEHOLDER
      ======================================== */
 
-@media (max-width: 768px) {
-  .level-card {
-    padding: 1.5rem;
-  }
+.level-card__nodes-placeholder {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  margin-top: 1.5rem;
+}
 
-  .level-card__header {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .level-card__nodes {
-    grid-template-columns: 1fr;
-  }
-
-  .level-card__number-value {
-    font-size: 2rem;
-  }
-
-  .level-card__title {
-    font-size: 1.5rem;
-  }
+.level-card__nodes-placeholder p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
 }

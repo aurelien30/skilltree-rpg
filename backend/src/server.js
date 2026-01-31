@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { initDatabase } from "./config/database.js";
+import { testConnection } from "./config/mysql.js";
 import waysRoutes from "./routes/waysRoutes.js"; // ← NOUVEAU
 
 dotenv.config();
@@ -67,7 +67,7 @@ app.use((err, req, res, next) => {
 // ===== DÉMARRAGE =====
 const startServer = async () => {
   try {
-    await initDatabase();
+    await testConnection();
 
     app.listen(PORT, () => {
       console.log("================================");
