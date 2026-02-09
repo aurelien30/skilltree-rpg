@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { testConnection } from "./config/mysql.js";
 import waysRoutes from "./routes/waysRoutes.js"; // ← NOUVEAU
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -12,6 +13,8 @@ const PORT = process.env.PORT || 3000;
 // ===== MIDDLEWARES =====
 app.use(cors());
 app.use(express.json());
+app.use("/api/ways", waysRoutes);
+app.use("/api/auth", authRoutes);
 
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path}`);

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test API Auth</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #1a1a2e;
+        color: #fff;
+      }
+      .section {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+      }
+      input,
+      button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #00d9ff;
+        background: rgba(0, 0, 0, 0.3);
+        color: #fff;
+        font-size: 16px;
+      }
+      button {
+        background: linear-gradient(135deg, #00d9ff, #667eea);
+        cursor: pointer;
+        font-weight: bold;
+      }
+      button:hover {
+        opacity: 0.9;
+      }
+      .result {
+        background: #000;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 10px;
+        white-space: pre-wrap;
+        font-family: monospace;
+        font-size: 14px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+      .token {
+        word-break: break-all;
+        color: #00ff88;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔐 Test API Authentification</h1>
+
+    <!-- REGISTER -->
+    <div class="section">
+      <h2>1. Register (Inscription)</h2>
+      <input
+        type="text"
+        id="regUsername"
+        placeholder="Username"
+        value="testuser"
+      />
+      <input
+        type="email"
+        id="regEmail"
+        placeholder="Email"
+        value="test@example.com"
+      />
+      <input
+        type="password"
+        id="regPassword"
+        placeholder="Password"
+        value="motdepasse123"
+      />
+      <button onclick="register()">S'inscrire</button>
+      <div class="result" id="regResult"></div>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="section">
+      <h2>2. Login (Connexion)</h2>
+      <input
+        type="email"
+        id="loginEmail"
+        placeholder="Email"
+        value="test@example.com"
+      />
+      <input
+        type="password"
+        id="loginPassword"
+        placeholder="Password"
+        value="motdepasse123"
+      />
+      <button onclick="login()">Se connecter</button>
+      <div class="result" id="loginResult"></div>
+    </div>
+
+    <!-- GET ME -->
+    <div class="section">
+      <h2>3. Get Me (Route protégée)</h2>
+      <p>Token actuel : <span class="token" id="currentToken">Aucun</span></p>
+      <button onclick="getMe()">Récupérer mes infos</button>
+      <div class="result" id="meResult"></div>
+    </div>
+
+    <!-- TEST TOKEN INVALIDE -->
+    <div class="section">
+      <h2>4. Test token invalide</h2>
+      <button onclick="testInvalidToken()">Tester avec token invalide</button>
+      <div class="result" id="invalidResult"></div>
+    </div>
+
+    <!-- TEST SANS TOKEN -->
+    <div class="section">
+      <h2>5. Test sans token</h2>
+      <button onclick="testNoToken()">Tester sans token</button>
+      <div class="result" id="noTokenResult"></div>
+    </div>
+
+    <script>
+      let token = null;
+
+      // Register
+      async function register() {
+        const username = document.getElementById("regUsername").value;
+        const email = document.getElementById("regEmail").value;
+        const password = document.getElementById("regPassword").value;
+
+        try {
+          const response = await fetch(
+            "http://localhost:3000/api/auth/register",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ username, email, password }),
+            }
+          );
+
+          const data = await response.json();
+          document.getElementById("regResult").textContent = JSON.stringify(
+            data,
+            null,
+            2
+          );
+
+          if (data.success) {
+            token = data.data.token;
+            document.getElementById("currentToken").textContent = token;
+            alert("✅ Inscription réussie ! Token sauvegardé.");
+          }
+        } catch (error) {
+          document.getElementById("regResult").textContent =
+            "Erreur: " + error.message;
+        }
+      }
+
+      // Login
+      async function login() {
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPassword").value;
+
+        try {
+          const response = await fetch("http://localhost:3000/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await response.json();
+          document.getElementById("loginResult").textContent = JSON.stringify(
+            data,
+            null,
+            2
+          );
+
+          if (data.success) {
+            token = data.data.token;
+            document.getElementById("currentToken").textContent = token;
+            alert("✅ Connexion réussie ! Token sauvegardé.");
+          }
+        } catch (error) {
+          document.getElementById("loginResult").textContent =
+            "Erreur: " + error.message;
+        }
+      }
+
+      // Get Me
+      async function getMe() {
+        if (!token) {
+          alert("❌ Pas de token ! Connectez-vous d'abord.");
+          return;
+        }
+
+        try {
+          const response = await fetch("http://localhost:3000/api/auth/me", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const data = await response.json();
+          document.getElementById("meResult").textContent = JSON.stringify(
+            data,
+            null,
+            2
+          );
+        } catch (error) {
+          document.getElementById("meResult").textContent =
+            "Erreur: " + error.message;
+        }
+      }
+
+      // Test token invalide
+      async function testInvalidToken() {
+        try {
+          const response = await fetch("http://localhost:3000/api/auth/me", {
+            method: "GET",
+            headers: {
+              Authorization: "Bearer token_invalide_123",
+            },
+          });
+
+          const data = await response.json();
+          document.getElementById("invalidResult").textContent = JSON.stringify(
+            data,
+            null,
+            2
+          );
+        } catch (error) {
+          document.getElementById("invalidResult").textContent =
+            "Erreur: " + error.message;
+        }
+      }
+
+      // Test sans token
+      async function testNoToken() {
+        try {
+          const response = await fetch("http://localhost:3000/api/auth/me", {
+            method: "GET",
+          });
+
+          const data = await response.json();
+          document.getElementById("noTokenResult").textContent = JSON.stringify(
+            data,
+            null,
+            2
+          );
+        } catch (error) {
+          document.getElementById("noTokenResult").textContent =
+            "Erreur: " + error.message;
+        }
+      }
+    </script>
+  </body>
+</html>
+²
