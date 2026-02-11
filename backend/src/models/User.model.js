@@ -1,5 +1,7 @@
-import pool from "../config/mysql.js";
+import pool from "../config/database.js"; // ← Nouveau nom
 import bcrypt from "bcryptjs";
+
+// Le reste du code reste identique
 
 // ========================================
 // MODÈLE: Users

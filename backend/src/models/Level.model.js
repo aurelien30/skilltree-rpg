@@ -1,4 +1,4 @@
-import pool from "../config/mysql.js";
+import pool from "../config/database.js";
 
 export const LevelModel = {
   // Récupère tous les niveaux d'une voie

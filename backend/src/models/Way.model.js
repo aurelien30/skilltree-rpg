@@ -1,4 +1,4 @@
-import pool from "../config/mysql.js";
+import pool from "../config/database.js";
 
 export const WayModel = {
   // Récupère toutes les voies

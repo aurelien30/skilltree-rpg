@@ -1,5 +1,7 @@
-import { WayModel } from "../models/WayModel.js";
-import { LevelModel } from "../models/LevelModel.js";
+import { WayModel } from "../models/Way.model.js";
+import { LevelModel } from "../models/Level.model.js";
+
+// Le reste du code reste identique
 
 // GET /api/ways - Toutes les voies
 export const getAllWays = async (req, res) => {

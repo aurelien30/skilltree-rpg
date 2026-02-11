@@ -3,13 +3,21 @@ import {
   getAllWays,
   getWayById,
   getLevelByNumber,
-} from "../controllers/waysControllerMySQL.js";
+} from "../controllers/ways.controller.js";
 
 const router = express.Router();
 
-// Routes (pas de changement)
+// ========================================
+// ROUTES WAYS (VOIES)
+// ========================================
+
+// GET /api/ways
 router.get("/", getAllWays);
+
+// GET /api/ways/:id
 router.get("/:id", getWayById);
+
+// GET /api/ways/:wayId/levels/:levelNumber
 router.get("/:wayId/levels/:levelNumber", getLevelByNumber);
 
 export default router;

@@ -1,5 +1,7 @@
-import { UserModel } from "../models/UserModel.js";
-import { generateToken } from "../utils/jwt.js";
+import { UserModel } from "../models/User.model.js";
+import { generateToken } from "../utils/jwt.utils.js";
+
+// Le reste du code reste identique
 
 // ========================================
 // CONTRÔLEURS AUTHENTIFICATION
